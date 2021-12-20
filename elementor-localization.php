@@ -10,9 +10,9 @@ use KPS3\Smartling\Elementor\Bootloader;
  * Author: Smartling
  * Author URI: https://www.smartling.com
  * Plugin Name: Smartling-elementor
- * Version: 2.7.0
+ * Version: 2.11.0
  * Description: Extend Smartling Connector functionality to support elementor. Initial development by KPS3, maintained by Smartling
- * SupportedSmartlingConnectorVersions: 2.7-2.7
+ * SupportedSmartlingConnectorVersions: 2.7-2.11
  * SupportedElementorVersions: 3.4-3.4
  */
 
