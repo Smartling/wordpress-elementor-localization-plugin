@@ -3,7 +3,7 @@
 namespace KPS3\Smartling\Elementor;
 
 use Smartling\Helpers\Serializers\SerializationManager;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Smartling\Vendor\Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ElementorAutoSetup {
     public static function register(ContainerBuilder $di): void
