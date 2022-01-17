@@ -100,7 +100,10 @@ class Bootloader {
         try {
             ElementorAutoSetup::register($this->di);
         } catch (\Error $e) {
+            deactivate_plugins('Smartling-elementor', false, true);
             self::displayErrorMessage('Smartling-Elementor unable to start');
+            $logger = MonologWrapper::getLogger(static::class);
+            $logger->error('Smartling-Elementor unable to start: ' . $e->getMessage());
         }
     }
 }

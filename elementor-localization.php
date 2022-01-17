@@ -1,6 +1,7 @@
 <?php
 
 use KPS3\Smartling\Elementor\Bootloader;
+use Smartling\MonologWrapper\MonologWrapper;
 
 /**
  * @link https://www.kps3.com
@@ -30,7 +31,10 @@ if ((defined('DOING_CRON') && true === DOING_CRON) || is_admin()) {
         try {
             Bootloader::boot(__FILE__, $di);
         } catch (\Error $e) {
+            deactivate_plugins('Smartling-elementor', false, true);
             Bootloader::displayErrorMessage('Smartling-elementor unable to start');
+            $logger = MonologWrapper::getLogger('smartling-elementor');
+            $logger->error('Smartling-Elementor unable to start: ' . $e->getMessage());
         }
     });
 }
