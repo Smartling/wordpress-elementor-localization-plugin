@@ -53,7 +53,7 @@ class ElementorFieldsFilterHelper extends FieldsFilterHelper {
      */
     public function applyTranslatedValues(SubmissionEntity $submission, array $originalValues, array $translatedValues, $applyFilters = true): array
     {
-        $this->getLogger()->debug('Smartling-Elementor applying translated values');
+        $this->getLogger()->debug('Smartling-Elementor is applying translated values');
         ElementorProcessor::SetSubmission($submission);
 
         $originalValues = $this->prepareSourceData($originalValues);
