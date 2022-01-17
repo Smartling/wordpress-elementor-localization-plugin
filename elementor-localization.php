@@ -1,6 +1,7 @@
 <?php
 
 use KPS3\Smartling\Elementor\Bootloader;
+use Smartling\MonologWrapper\MonologWrapper;
 
 /**
  * @link https://www.kps3.com
@@ -10,10 +11,12 @@ use KPS3\Smartling\Elementor\Bootloader;
  * Author: Smartling
  * Author URI: https://www.smartling.com
  * Plugin Name: Smartling-elementor
- * Version: 2.11.0
+ * Version: 2.11.1
  * Description: Extend Smartling Connector functionality to support elementor. Initial development by KPS3, maintained by Smartling
  * SupportedSmartlingConnectorVersions: 2.7-2.11
  * SupportedElementorVersions: 3.4-3.4
+ * Elementor tested up to: 3.4.4
+ * Elementor Pro tested up to: 3.4.4
  */
 
 if (!class_exists(Bootloader::class)) {
@@ -25,7 +28,14 @@ if (!class_exists(Bootloader::class)) {
  */
 if ((defined('DOING_CRON') && true === DOING_CRON) || is_admin()) {
     add_action('smartling_before_init', static function ($di) {
-        Bootloader::boot(__FILE__, $di);
+        try {
+            Bootloader::boot(__FILE__, $di);
+        } catch (\Error $e) {
+            deactivate_plugins('Smartling-elementor', false, true);
+            Bootloader::displayErrorMessage('Smartling-elementor unable to start');
+            $logger = MonologWrapper::getLogger('smartling-elementor');
+            $logger->error('Smartling-Elementor unable to start: ' . $e->getMessage());
+        }
     });
 }
 

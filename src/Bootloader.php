@@ -3,7 +3,7 @@
 namespace KPS3\Smartling\Elementor;
 
 use Smartling\Helpers\ArrayHelper;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Smartling\Vendor\Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class Bootloader {
     private const PLUGIN_NAME = 'Plugin Name';
@@ -17,7 +17,7 @@ class Bootloader {
         $this->di = $di;
     }
 
-    private static function displayErrorMessage(string $messageText = ''): void
+    public static function displayErrorMessage(string $messageText = ''): void
     {
         if (!function_exists('add_action') || !function_exists('esc_html')) {
             throw new \RuntimeException('This code cannot run outside of WordPress');
@@ -97,6 +97,13 @@ class Bootloader {
 
     public function run(): void
     {
-        ElementorAutoSetup::register($this->di);
+        try {
+            ElementorAutoSetup::register($this->di);
+        } catch (\Error $e) {
+            deactivate_plugins('Smartling-elementor', false, true);
+            self::displayErrorMessage('Smartling-Elementor unable to start');
+            $logger = MonologWrapper::getLogger(static::class);
+            $logger->error('Smartling-Elementor unable to start: ' . $e->getMessage());
+        }
     }
 }

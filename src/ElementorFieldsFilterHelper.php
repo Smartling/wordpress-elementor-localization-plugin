@@ -53,6 +53,7 @@ class ElementorFieldsFilterHelper extends FieldsFilterHelper {
      */
     public function applyTranslatedValues(SubmissionEntity $submission, array $originalValues, array $translatedValues, $applyFilters = true): array
     {
+        $this->getLogger()->debug('Smartling-Elementor is applying translated values');
         ElementorProcessor::SetSubmission($submission);
 
         $originalValues = $this->prepareSourceData($originalValues);
@@ -74,6 +75,12 @@ class ElementorFieldsFilterHelper extends FieldsFilterHelper {
 
         $result = array_merge($result, $translatedValues);
         $result = apply_filters(ElementorProcessor::FILTER_ELEMENTOR_DATA_FIELD_PROCESS, $result);
+        foreach ($result as $key => $value) {
+            if (preg_match( '~^meta/_elementor_data/~', $key) === 1) {
+                $this->getLogger()->debug( "Removed $key='$value'");
+                unset($result[$key]);
+            }
+        }
 
         return $this->structurizeArray($result);
     }
