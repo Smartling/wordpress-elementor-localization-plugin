@@ -74,19 +74,6 @@ class Bootloader {
             self::displayErrorMessage($errorMessage);
             return;
         }
-        foreach (
-            [
-                'Elementor' => self::SUPPORTED_ELEMENTOR_VERSIONS,
-                'Smartling Connector' => self::SUPPORTED_SMARTLING_CONNECTOR_VERSIONS,
-            ] as $pluginName => $metaName
-        ) {
-            [$minVersion, $maxVersion] = explode('-', self::getPluginMeta($pluginFile, $metaName));
-            $installed = self::findPluginByName($allPlugins, $pluginName);
-            if ($installed && !self::versionInRange($installed['Version'] ?? '0', $minVersion, $maxVersion)) {
-                self::displayErrorMessage("<strong>$currentPluginName</strong> extension plugin requires <strong>$pluginName</strong> plugin version at least <strong>$minVersion</strong> and at most <strong>$maxVersion</strong>");
-                return;
-            }
-        }
 
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'ElementorDataSerializer.php';
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'ElementorFilter.php';
@@ -100,7 +87,7 @@ class Bootloader {
     {
         [$minVersion, $maxVersion] = explode('-', self::getPluginMeta($pluginFile, self::SUPPORTED_SMARTLING_CONNECTOR_VERSIONS));
         $installed = self::findPluginByName($allPlugins, 'Smartling Connector');
-        if (!(!$installed || !self::versionInRange($installed['Version'] ?? '0', $minVersion, $maxVersion))) {
+        if (!$installed || !self::versionInRange($installed['Version'] ?? '0', $minVersion, $maxVersion)) {
             return "<strong>" . self::getPluginName($pluginFile) . "</strong> extension plugin requires <strong>Smartling Connector</strong> plugin version at least <strong>$minVersion</strong> and at most <strong>$maxVersion</strong>";
         }
         return null;
