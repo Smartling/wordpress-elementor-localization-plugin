@@ -23,9 +23,8 @@ class Bootloader {
         if (!function_exists('add_action') || !function_exists('esc_html')) {
             throw new \RuntimeException('This code cannot run outside of WordPress');
         }
-        $text = esc_html($messageText);
-        add_action('all_admin_notices', static function () use ($text) {
-            echo "<div class=\"error\"><p>$text</p></div>";
+        add_action('all_admin_notices', static function () use ($messageText) {
+            echo "<div class=\"error\"><p>$messageText</p></div>";
         });
     }
 
