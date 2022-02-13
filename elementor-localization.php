@@ -11,7 +11,7 @@ use Smartling\MonologWrapper\MonologWrapper;
  * Author: Smartling
  * Author URI: https://www.smartling.com
  * Plugin Name: Smartling-elementor
- * Version: 2.11.2
+ * Version: 2.11.4
  * Description: Extend Smartling Connector functionality to support elementor. Initial development by KPS3, maintained by Smartling
  * SupportedSmartlingConnectorVersions: 2.7-2.11
  * SupportedElementorVersions: 3.4-3.4
@@ -24,6 +24,10 @@ if (!class_exists(Bootloader::class)) {
     require_once plugin_dir_path(__FILE__) . 'src/Bootloader.php';
 }
 
+if (!function_exists('deactivate_plugins') || !function_exists('get_plugins')) {
+    require_once ABSPATH . 'wp-admin/includes/plugin.php';
+}
+
 /**
  * Execute ONLY for admin pages
  */
@@ -33,7 +37,7 @@ if ((defined('DOING_CRON') && true === DOING_CRON) || is_admin()) {
             Bootloader::boot(__FILE__, $di);
         } catch (\Error $e) {
             deactivate_plugins('Smartling-elementor', false, true);
-            Bootloader::displayErrorMessage('Smartling-elementor unable to start');
+            Bootloader::displayErrorMessage('Smartling-elementor unable to start and was deactivated: ' . $e->getMessage());
             $logger = MonologWrapper::getLogger('smartling-elementor');
             $logger->error('Smartling-Elementor unable to start: ' . $e->getMessage());
         }

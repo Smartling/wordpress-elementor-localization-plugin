@@ -55,6 +55,14 @@ class ElementorFieldsFilterHelper extends FieldsFilterHelper {
     {
         $this->getLogger()->debug('Smartling-Elementor is applying translated values');
         ElementorProcessor::SetSubmission($submission);
+        $settingsManager = $this->getSettingsManager();
+        $profile = $settingsManager->getSingleSettingsProfile($submission->getSourceBlogId());
+        if ($profile->getCleanMetadataOnDownload() !== 1) {
+            $profile->setCleanMetadataOnDownload(1);
+            $this->getLogger()->notice('Setting cleanMetadataOnDownload to true for Elementor metadata');
+            $settingsManager->storeEntity($profile);
+        }
+
 
         $originalValues = $this->prepareSourceData($originalValues);
         $originalValues = $this->flattenArray($originalValues);
