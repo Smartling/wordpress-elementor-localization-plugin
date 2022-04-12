@@ -15,10 +15,7 @@ class ElementorProcessor {
      */
     protected static $submission;
     protected array $items = [];
-    /**
-     * @var mixed
-     */
-    private $data;
+    private array $data = [];
 
     public static function register(): void
     {
