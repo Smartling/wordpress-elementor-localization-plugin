@@ -11,9 +11,9 @@ use Smartling\MonologWrapper\MonologWrapper;
  * Author: Smartling
  * Author URI: https://www.smartling.com
  * Plugin Name: Smartling-elementor
- * Version: 2.11.4
+ * Version: 2.12.1
  * Description: Extend Smartling Connector functionality to support elementor. Initial development by KPS3, maintained by Smartling
- * SupportedSmartlingConnectorVersions: 2.7-2.11
+ * SupportedSmartlingConnectorVersions: 2.7-2.12
  * SupportedElementorVersions: 3.4-3.4
  * SupportedElementorProVersions: 3.4-3.4
  * Elementor tested up to: 3.4.4
